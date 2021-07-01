@@ -1,3 +1,8 @@
+# Badfish (Stockfish fork)
+## This is a bad forked version of stockfish that will try to play the worst move possible in any position! Enjoy :D
+
+More info available in [this](https://www.reddit.com/r/chess/comments/ob74em/i_created_a_slightly_modified_version_of/) post.
+
 ## Overview
 
 [![Build Status](https://github.com/official-stockfish/Stockfish/actions/workflows/stockfish.yml/badge.svg)](https://github.com/official-stockfish/Stockfish/actions)

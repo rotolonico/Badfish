@@ -272,7 +272,7 @@ Score Entry::do_king_safety(const Position& pos) {
   Square ksq = pos.square<KING>(Us);
   kingSquares[Us] = ksq;
   castlingRights[Us] = pos.castling_rights(Us);
-  auto compare = [](Score a, Score b) { return mg_value(a) < mg_value(b); };
+  auto compare = [](Score a, Score b) { return mg_value_inverse(a) < mg_value_inverse(b); };
 
   Score shelter = evaluate_shelter<Us>(pos, ksq);
 

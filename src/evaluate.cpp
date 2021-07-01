@@ -168,8 +168,8 @@ namespace Trace {
   }
 
   std::ostream& operator<<(std::ostream& os, Score s) {
-    os << std::setw(5) << to_cp(mg_value(s)) << " "
-       << std::setw(5) << to_cp(eg_value(s));
+    os << std::setw(5) << to_cp(mg_value_inverse(s)) << " "
+       << std::setw(5) << to_cp(eg_value_inverse(s));
     return os;
   }
 
@@ -600,10 +600,10 @@ namespace {
                  +  98 * popcount(pos.blockers_for_king(Us))                  // (~2 Elo)
                  +  69 * kingAttacksCount[Them]                               // (~0.5 Elo)
                  +   3 * kingFlankAttack * kingFlankAttack / 8                // (~0.5 Elo)
-                 +       mg_value(mobility[Them] - mobility[Us])              // (~0.5 Elo)
+                 +       mg_value_inverse(mobility[Them] - mobility[Us])              // (~0.5 Elo)
                  - 873 * !pos.count<QUEEN>(Them)                              // (~24 Elo)
                  - 100 * bool(attackedBy[Us][KNIGHT] & attackedBy[Us][KING])  // (~5 Elo)
-                 -   6 * mg_value(score) / 8                                  // (~8 Elo)
+                 -   6 * mg_value_inverse(score) / 8                                  // (~8 Elo)
                  -   4 * kingFlankDefense                                     // (~5 Elo)
                  +  37;                                                       // (~0.5 Elo)
 
@@ -889,8 +889,8 @@ namespace {
                     - 43 * almostUnwinnable
                     -110 ;
 
-    Value mg = mg_value(score);
-    Value eg = eg_value(score);
+    Value mg = mg_value_inverse(score);
+    Value eg = eg_value_inverse(score);
 
     // Now apply the bonus: note that we find the attacking side by extracting the
     // sign of the midgame or endgame values, and that we carefully cap the bonus
@@ -986,7 +986,7 @@ namespace {
 
     // Early exit if score is high
     auto lazy_skip = [&](Value lazyThreshold) {
-        return abs(mg_value(score) + eg_value(score)) / 2 > lazyThreshold + pos.non_pawn_material() / 64;
+        return abs(mg_value_inverse(score) + eg_value_inverse(score)) / 2 > lazyThreshold + pos.non_pawn_material() / 64;
     };
 
     if (lazy_skip(LazyThreshold1))
@@ -1105,7 +1105,7 @@ Value Eval::evaluate(const Position& pos) {
       // If there is PSQ imbalance we use the classical eval, but we switch to
       // NNUE eval faster when shuffling or if the material on the board is high.
       int r50 = pos.rule50_count();
-      Value psq = Value(abs(eg_value(pos.psq_score())));
+      Value psq = Value(abs(eg_value_inverse(pos.psq_score())));
       bool classical = psq * 5 > (750 + pos.non_pawn_material() / 64) * (5 + r50);
 
       v = classical ? Evaluation<NO_TRACE>(pos).value()  // classical
