@@ -304,6 +304,17 @@ inline Value mg_value(Score s) {
   return Value(mg.s);
 }
 
+inline Value eg_value_inverse(Score s) {
+  union { uint16_t u; int16_t s; } eg = { uint16_t(unsigned(s + 0x8000) >> 16) };
+  return Value(eg.s * -1);
+}
+
+inline Value mg_value_inverse(Score s) {
+  union { uint16_t u; int16_t s; } mg = { uint16_t(unsigned(s)) };
+  return Value(mg.s * -1);
+}
+
+
 #define ENABLE_BASE_OPERATORS_ON(T)                                \
 constexpr T operator+(T d1, int d2) { return T(int(d1) + d2); }    \
 constexpr T operator-(T d1, int d2) { return T(int(d1) - d2); }    \

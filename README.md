@@ -31,6 +31,11 @@
 
 ## Overview
 
+# Badfish (Stockfish fork)
+## This is a bad forked version of stockfish that will try to play the worst move possible in any position! Enjoy :D
+
+More info available in [this](https://www.reddit.com/r/chess/comments/ob74em/i_created_a_slightly_modified_version_of/) post.
+
 [Stockfish][website-link] is a **free and strong UCI chess engine** derived from
 Glaurung 2.1 that analyzes chess positions and computes the optimal moves.
 
